@@ -5,6 +5,12 @@
  */
 package com.uach.GUI;
 
+import java.util.Iterator;
+import java.util.List;
+import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
+
 /**
  *
  * @author edgar
@@ -14,6 +20,13 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
+    PyJDom p = new PyJDom();
+//    Document docXML = new Document();
+//
+//    Format format = Format.getPrettyFormat();
+//    XMLOutputter xmloutputter = new XMLOutputter(format);
+//    String docStr = null;
+
     public MainMenu() {
         initComponents();
     }
@@ -45,6 +58,11 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(500, 300));
 
         btnAgregar.setText("Agregar elemento");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar elemento");
 
@@ -112,6 +130,11 @@ public class MainMenu extends javax.swing.JFrame {
         mArchivo.add(miNuevo);
 
         miGuardar.setText("Guardar");
+        miGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miGuardarActionPerformed(evt);
+            }
+        });
         mArchivo.add(miGuardar);
 
         jMenuBar1.add(mArchivo);
@@ -137,8 +160,39 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void miAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAbrirActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_miAbrirActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if (p.docXML.hasRootElement()) {
+            List<Element> hijos = p.docXML.getContent();
+            AddElement addElement = new AddElement(hijos);
+            addElement.setVisible(true);
+        } else {
+            AddElement addElement = new AddElement();
+            addElement.setVisible(true);
+        }
+//        String nodo = JOptionPane.showInputDialog(evt);
+//        Element raiz = p.crearNodo(nodo);
+//        docXML.addContent(raiz);
+//        docStr = xmloutputter.outputString(docXML);
+//        txaMain.setText(docStr);
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void miGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGuardarActionPerformed
+        Format format = Format.getPrettyFormat();
+        XMLOutputter xmloutputter = new XMLOutputter(format);
+        String docStr = xmloutputter.outputString(p.docXML);
+        txaMain.setText(docStr);
+
+//        try {
+//            File f = new File("C:\\ApJava\\Libreria.xml");
+//            FileWriter fw = new FileWriter(f);
+//            xmloutputter.output(docXML, fw);
+//        } catch (IOException e) {
+//            System.err.println(e.getMessage());
+//        }
+    }//GEN-LAST:event_miGuardarActionPerformed
 
     /**
      * @param args the command line arguments
