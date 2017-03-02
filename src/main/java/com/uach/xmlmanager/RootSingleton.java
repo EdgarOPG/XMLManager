@@ -19,7 +19,6 @@ public class RootSingleton {
     PyJDom p = new PyJDom();
     static Document docXML = new Document();
     private static RootSingleton INSTANCE;
-    private RootSingleton rs;
 
     private RootSingleton() {
         this.createRoot();
@@ -37,10 +36,7 @@ public class RootSingleton {
         return INSTANCE;
     }
 
-    public Connection getRoot() {
-        return rs;
+    public static void main(String[] args) {
+        
     }
-
 }
-Contact GitHub API Training Shop Blog About
-© 2017 GitHub, Inc. Terms

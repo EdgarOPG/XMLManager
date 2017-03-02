@@ -5,6 +5,7 @@
  */
 package com.uach.GUI;
 
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import org.jdom.Element;
@@ -21,6 +22,7 @@ public class AddElement extends javax.swing.JFrame {
     PyJDom p = new PyJDom();
     MainMenu mM;
     public List<Element> elements = new ArrayList<Element>();
+    public Integer indexElements;
 
     public List<Element> getElements() {
         return elements;
@@ -68,13 +70,19 @@ public class AddElement extends javax.swing.JFrame {
         lblNombre.setText("Nombre del elemento");
 
         cmbElementoPadre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccionar-" }));
-        cmbElementoPadre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbElementoPadreActionPerformed(evt);
+        cmbElementoPadre.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbElementoPadreItemStateChanged(evt);
             }
         });
 
         lblPadre.setText("Padre");
+
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreKeyPressed(evt);
+            }
+        });
 
         bntOk.setText("Aceptar");
         bntOk.addActionListener(new java.awt.event.ActionListener() {
@@ -119,24 +127,28 @@ public class AddElement extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cmbElementoPadreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbElementoPadreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbElementoPadreActionPerformed
-
     private void bntOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntOkActionPerformed
         if (p.getDocXML().hasRootElement()) {
             Integer cmbIndex = cmbElementoPadre.getSelectedIndex();
+
             if (cmbIndex == 0) {
                 p.setNodoHijo(p.crearNodo(txtNombre.getText()));
                 p.getRaiz().addContent(p.getNodoHijo());
             } else {
-                String nombre = cmbElementoPadre.getSelectedItem().toString();
-//                elements
-//                p.getNodoPadre() = p.crearNodo(nombre);
-                
-                p.getRaiz().getChildren();
-                Element nodoHijo = p.crearNodo(txtNombre.getText());
-//                nodoPadre.addContent(nodoHijo);
+                indexElements = cmbElementoPadre.getSelectedIndex();
+
+                for (Element element : elements) {
+                    System.out.println("QualifiedName: " + element.getQualifiedName());
+                    System.out.println("NamespaceURI: " + element.getNamespaceURI());
+                    System.out.println("NamespacePrefix: " + element.getNamespacePrefix());
+////                    if (element.getText().equals(nombre)) {
+////                        p.setNodoPadre(element);
+////                    }
+                }
+////                p.setNodoHijo(p.crearNodo(txtNombre.getText()));
+////                System.out.println("hijo: " + p.getNodoHijo().getName());
+////                System.out.println("padre: " + p.getNodoPadre().getName());
+//                p.getNodoPadre().addContent(p.getNodoHijo());
             }
         } else {
             p.setRaiz(p.crearNodo(txtNombre.getText()));
@@ -144,6 +156,18 @@ public class AddElement extends javax.swing.JFrame {
         }
         this.dispose();
     }//GEN-LAST:event_bntOkActionPerformed
+
+    private void cmbElementoPadreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbElementoPadreItemStateChanged
+        indexElements = cmbElementoPadre.getSelectedIndex();
+        System.out.println("seleccionado: " + indexElements);
+    }//GEN-LAST:event_cmbElementoPadreItemStateChanged
+
+    private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
+        int key = evt.getKeyCode();
+        if (key == evt.VK_ENTER) {
+            bntOk.doClick();
+        }
+    }//GEN-LAST:event_txtNombreKeyPressed
 
     /**
      * @param args the command line arguments
