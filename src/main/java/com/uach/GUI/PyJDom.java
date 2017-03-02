@@ -16,10 +16,47 @@ import org.jdom.output.XMLOutputter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 public class PyJDom {
 
-    static Document docXML = new Document();
+    private static Document docXML = new Document();
+    private static Element raiz;
+    private static Element nodoHijo;
+    private static Element nodoPadre;
+
+    public Element getNodoPadre() {
+        return nodoPadre;
+    }
+
+    public void setNodoPadre(Element nodoPadre) {
+        this.nodoPadre = nodoPadre;
+    }
+
+    public Element getNodoHijo() {
+        return nodoHijo;
+    }
+
+    public void setNodoHijo(Element nodoHijo) {
+        this.nodoHijo = nodoHijo;
+    }
+
+    public Document getDocXML() {
+        return docXML;
+    }
+
+    public void setDocXML(Document docXML) {
+        this.docXML = docXML;
+    }
+
+    public Element getRaiz() {
+        return raiz;
+    }
+
+    public void setRaiz(Element raiz) {
+        this.raiz = raiz;
+    }
 
     public Element crearNodo(String tagElemento, String contenido) {
         Element nodo = new Element(tagElemento);
@@ -72,12 +109,27 @@ public class PyJDom {
         nodoHijo.addContent(p.crearNodo("Titulo", "Administracion de TI"));
         nodoHijo.addContent(p.crearNodo("Editorial", "Pearson"));
         nodoHijo.addContent(p.crearNodo("Precio", "260.00"));
-        raiz.addContent(nodoHijo);
+        raiz.
+                
+                
+                addContent(nodoHijo);
+
+        List hijos = raiz.getChildren();
+        Iterator navegador = hijos.iterator();
+
+        Element temporal = null;
+
+        Element elemento = p.crearNodo("ASD");
+        while (navegador.hasNext()) {
+            temporal = (Element) navegador.next();
+            System.out.println(temporal.getChild("Autor").getValue());
+        }
 
         Format format = Format.getPrettyFormat();
         XMLOutputter xmloutputter = new XMLOutputter(format);
         String docStr = xmloutputter.outputString(docXML);
-        System.out.println(docStr);
+//        System.out.println(docStr);
+
         try {
             File f = new File("C:\\ApJava\\Libreria.xml");
             FileWriter fw = new FileWriter(f);

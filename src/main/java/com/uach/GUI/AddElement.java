@@ -8,8 +8,6 @@ package com.uach.GUI;
 import java.util.ArrayList;
 import java.util.List;
 import org.jdom.Element;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
 
 /**
  *
@@ -21,22 +19,31 @@ public class AddElement extends javax.swing.JFrame {
      * Creates new form AddElement
      */
     PyJDom p = new PyJDom();
+    MainMenu mM;
+    public List<Element> elements = new ArrayList<Element>();
 
-    public AddElement(List<Element> Items) {
+    public List<Element> getElements() {
+        return elements;
+    }
+
+    public void setElements(List<Element> elements) {
+        this.elements = elements;
+    }
+
+    public AddElement(List<Element> elements) {
         initComponents();
-        List<Element> items = Items;
-        if (!Items.isEmpty()) {
-            for (Element item : items) {
-                cmbElementoPadre.addItem(item.getName());
+        setElements(elements);
+        if (!elements.isEmpty()) {
+            for (Element element : elements) {
+                cmbElementoPadre.addItem(element.toString());
             }
-        } else {
-            cmbElementoPadre.setEnabled(false);
         }
         this.setLocationRelativeTo(null);
     }
 
     public AddElement() {
         initComponents();
+        cmbElementoPadre.setEnabled(false);
         this.setLocationRelativeTo(null);
     }
 
@@ -55,7 +62,7 @@ public class AddElement extends javax.swing.JFrame {
         txtNombre = new javax.swing.JTextField();
         bntOk = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         lblNombre.setText("Nombre del elemento");
@@ -117,22 +124,24 @@ public class AddElement extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbElementoPadreActionPerformed
 
     private void bntOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntOkActionPerformed
-        if (p.docXML.hasRootElement()) {
+        if (p.getDocXML().hasRootElement()) {
             Integer cmbIndex = cmbElementoPadre.getSelectedIndex();
             if (cmbIndex == 0) {
-                Element nodoHijo = p.crearNodo(txtNombre.getText());
+                p.setNodoHijo(p.crearNodo(txtNombre.getText()));
+                p.getRaiz().addContent(p.getNodoHijo());
             } else {
                 String nombre = cmbElementoPadre.getSelectedItem().toString();
-                Element nodoPadre = p.crearNodo(nombre);
-
+//                elements
+//                p.getNodoPadre() = p.crearNodo(nombre);
+                
+                p.getRaiz().getChildren();
                 Element nodoHijo = p.crearNodo(txtNombre.getText());
-                nodoPadre.addContent(nodoHijo);
+//                nodoPadre.addContent(nodoHijo);
             }
         } else {
-            Element raiz = p.crearNodo(txtNombre.getText());
-            p.docXML.addContent(raiz);
+            p.setRaiz(p.crearNodo(txtNombre.getText()));
+            p.getDocXML().addContent(p.getRaiz());
         }
-
         this.dispose();
     }//GEN-LAST:event_bntOkActionPerformed
 

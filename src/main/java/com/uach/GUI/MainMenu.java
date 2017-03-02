@@ -5,7 +5,6 @@
  */
 package com.uach.GUI;
 
-import java.util.Iterator;
 import java.util.List;
 import org.jdom.Element;
 import org.jdom.output.Format;
@@ -21,14 +20,22 @@ public class MainMenu extends javax.swing.JFrame {
      * Creates new form MainMenu
      */
     PyJDom p = new PyJDom();
+    Format format = Format.getPrettyFormat();
+    XMLOutputter xmloutputter = new XMLOutputter(format);
+
 //    Document docXML = new Document();
 //
 //    Format format = Format.getPrettyFormat();
 //    XMLOutputter xmloutputter = new XMLOutputter(format);
 //    String docStr = null;
-
     public MainMenu() {
         initComponents();
+        this.setLocationRelativeTo(null);
+    }
+    
+    public void Reload(){
+        String docStr = xmloutputter.outputString(p.getDocXML());
+        txaMain.setText(docStr);
     }
 
     /**
@@ -164,34 +171,18 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_miAbrirActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if (p.docXML.hasRootElement()) {
-            List<Element> hijos = p.docXML.getContent();
+        if (p.getDocXML().hasRootElement()) {
+            List<Element> hijos = p.getRaiz().getContent();
             AddElement addElement = new AddElement(hijos);
             addElement.setVisible(true);
         } else {
             AddElement addElement = new AddElement();
             addElement.setVisible(true);
         }
-//        String nodo = JOptionPane.showInputDialog(evt);
-//        Element raiz = p.crearNodo(nodo);
-//        docXML.addContent(raiz);
-//        docStr = xmloutputter.outputString(docXML);
-//        txaMain.setText(docStr);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void miGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGuardarActionPerformed
-        Format format = Format.getPrettyFormat();
-        XMLOutputter xmloutputter = new XMLOutputter(format);
-        String docStr = xmloutputter.outputString(p.docXML);
-        txaMain.setText(docStr);
-
-//        try {
-//            File f = new File("C:\\ApJava\\Libreria.xml");
-//            FileWriter fw = new FileWriter(f);
-//            xmloutputter.output(docXML, fw);
-//        } catch (IOException e) {
-//            System.err.println(e.getMessage());
-//        }
+        Reload();
     }//GEN-LAST:event_miGuardarActionPerformed
 
     /**
