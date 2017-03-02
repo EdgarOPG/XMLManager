@@ -30,7 +30,7 @@ public class MainMenu extends javax.swing.JFrame {
 //    String docStr = null;
     public MainMenu() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
     }
     
     public void Reload(){

@@ -110,20 +110,13 @@ public class PyJDom {
         nodoHijo.addContent(p.crearNodo("Editorial", "Pearson"));
         nodoHijo.addContent(p.crearNodo("Precio", "260.00"));
         raiz.
-                
-                
                 addContent(nodoHijo);
-
-        List hijos = raiz.getChildren();
-        Iterator navegador = hijos.iterator();
-
-        Element temporal = null;
-
-        Element elemento = p.crearNodo("ASD");
-        while (navegador.hasNext()) {
-            temporal = (Element) navegador.next();
-            System.out.println(temporal.getChild("Autor").getValue());
+        
+        for (Iterator iterator = docXML.getDescendants(); iterator.hasNext();) {
+            Object next = iterator.next();
+            System.out.println(next);
         }
+
 
         Format format = Format.getPrettyFormat();
         XMLOutputter xmloutputter = new XMLOutputter(format);
