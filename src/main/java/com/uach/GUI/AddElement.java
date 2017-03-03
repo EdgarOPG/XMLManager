@@ -25,6 +25,8 @@ public class AddElement extends javax.swing.JFrame {
     public List<Content> elements = new ArrayList<Content>();
     public Integer cmbIndex;
 
+    public Integer i = 0;
+
     public List<Content> getElements() {
         return elements;
     }
@@ -38,7 +40,8 @@ public class AddElement extends javax.swing.JFrame {
         setElements(elements);
         if (!getElements().isEmpty()) {
             getElements().forEach((element) -> {
-                cmbElementoPadre.addItem(element.toString());
+                cmbElementoPadre.addItem(element.toString() + " " + i);
+                i++;
             });
         }
         this.setLocationRelativeTo(null);
@@ -176,7 +179,6 @@ public class AddElement extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntOk;

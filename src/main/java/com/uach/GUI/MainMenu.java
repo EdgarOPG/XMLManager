@@ -44,7 +44,7 @@ public class MainMenu extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    public void Reload() {
+    public void reload() {
         String docStr = xmloutputter.outputString(p.getDocXML());
         txaMain.setText(docStr);
     }
@@ -77,7 +77,6 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mArchivo = new javax.swing.JMenu();
         miAbrir = new javax.swing.JMenuItem();
-        miNuevo = new javax.swing.JMenuItem();
         miGuardar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -163,9 +162,6 @@ public class MainMenu extends javax.swing.JFrame {
         });
         mArchivo.add(miAbrir);
 
-        miNuevo.setText("Nuevo");
-        mArchivo.add(miNuevo);
-
         miGuardar.setText("Guardar");
         miGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -206,6 +202,7 @@ public class MainMenu extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
+        reload(); 
     }//GEN-LAST:event_miAbrirActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -220,7 +217,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void miGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGuardarActionPerformed
-        Reload();
+        reload();
         try {
             File f = new File("Libreria.xml");
             FileWriter fw = new FileWriter(f);
@@ -247,7 +244,7 @@ public class MainMenu extends javax.swing.JFrame {
             EditElement editElement = new EditElement(hijos);
             editElement.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "No hay elementos para eliminar");
+            JOptionPane.showMessageDialog(null, "No hay elementos para editar");
 
         }        
     }//GEN-LAST:event_btnActualizarActionPerformed
@@ -298,7 +295,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenu mArchivo;
     private javax.swing.JMenuItem miAbrir;
     private javax.swing.JMenuItem miGuardar;
-    private javax.swing.JMenuItem miNuevo;
     public javax.swing.JTextArea txaMain;
     // End of variables declaration//GEN-END:variables
 }
