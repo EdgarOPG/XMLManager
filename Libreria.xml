@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<company>
-  <staff>
-    <firstname>low</firstname>
-    <lastname>yin fong</lastname>
-    <nickname>fong fong</nickname>
-    <salary>200000</salary>
-  </staff>
-</company>
+<Catalogo>
+  <Libro>
+    <Titulo ISBM="987654321">Bases de datos</Titulo>
+    <Autor Estado="Activo">Luis Ramos</Autor>
+    <Editorial>Pegaso</Editorial>
+    <Fecha_pub>2001</Fecha_pub>
+  </Libro>
+</Catalogo>
