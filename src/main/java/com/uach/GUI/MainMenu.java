@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -93,6 +92,11 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         btnActualizar.setText("Actualizar elemento");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar elemento");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -236,6 +240,17 @@ public class MainMenu extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        if (p.getDocXML().hasRootElement()) {
+            List<Content> hijos = p.getNodeList(p.getRaiz().getDescendants());
+            EditElement editElement = new EditElement(hijos);
+            editElement.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay elementos para eliminar");
+
+        }        
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
      * @param args the command line arguments
