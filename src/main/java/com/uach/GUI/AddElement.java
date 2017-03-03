@@ -47,6 +47,7 @@ public class AddElement extends javax.swing.JFrame {
     public AddElement() {
         initComponents();
         cmbElementoPadre.setEnabled(false);
+        txtContent.setEnabled(false);
         this.setLocationRelativeTo(null);
     }
 
@@ -144,18 +145,18 @@ public class AddElement extends javax.swing.JFrame {
             if (p.getDocXML().hasRootElement()) {
                 cmbIndex = cmbElementoPadre.getSelectedIndex();
                 if (cmbIndex <= 0) {
-                    p.setNodoHijo(p.crearNodo(txtTag.getText()));
+                    p.setNodoHijo(p.crearNodo(txtTag.getText(),txtContent.getText()));
                     p.getRaiz().addContent(p.getNodoHijo());
                 } else {
-                    p.setNodoPadre(p.getNode(p.getDocXML().getDescendants(Filters.element()), cmbIndex - 1));
-                    p.setNodoHijo(p.crearNodo(txtTag.getText()));
+                    p.setNodoPadre(p.getNode(p.getDocXML()
+                            .getDescendants(Filters.element()), cmbIndex - 1));
+                    p.setNodoHijo(p.crearNodo(txtTag.getText(),txtContent.getText()));
                     p.getNodoPadre().addContent(p.getNodoHijo());
                 }
             } else {
                 p.setRaiz(p.crearNodo(txtTag.getText()));
                 p.getDocXML().addContent(p.getRaiz());
             }
-            txtTag.setText("");
             this.dispose();
         }
     }//GEN-LAST:event_bntOkActionPerformed
