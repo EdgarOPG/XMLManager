@@ -7,8 +7,11 @@ package com.uach.GUI;
 
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import org.jdom.Element;
+import org.jdom2.Content;
+import org.jdom2.Element;
+import org.jdom2.filter.Filters;
 
 /**
  *
@@ -21,24 +24,24 @@ public class AddElement extends javax.swing.JFrame {
      */
     PyJDom p = new PyJDom();
     MainMenu mM;
-    public List<Element> elements = new ArrayList<Element>();
+    public List<Content> elements = new ArrayList<Content>();
     public Integer indexElements;
 
-    public List<Element> getElements() {
+    public List<Content> getElements() {
         return elements;
     }
 
-    public void setElements(List<Element> elements) {
+    public void setElements(List<Content> elements) {
         this.elements = elements;
     }
 
-    public AddElement(List<Element> elements) {
+    public AddElement(List<Content> elements) {
         initComponents();
         setElements(elements);
         if (!elements.isEmpty()) {
-            for (Element element : elements) {
+            elements.forEach((element) -> {
                 cmbElementoPadre.addItem(element.toString());
-            }
+            });
         }
         this.setLocationRelativeTo(null);
     }
@@ -137,13 +140,16 @@ public class AddElement extends javax.swing.JFrame {
             } else {
                 indexElements = cmbElementoPadre.getSelectedIndex();
 
-                for (Element element : elements) {
-                    System.out.println("QualifiedName: " + element.getQualifiedName());
-                    System.out.println("NamespaceURI: " + element.getNamespaceURI());
-                    System.out.println("NamespacePrefix: " + element.getNamespacePrefix());
+                for (Content element : elements) {
+                    System.out.println("QualifiedName: " + element.toString());
 ////                    if (element.getText().equals(nombre)) {
 ////                        p.setNodoPadre(element);
 ////                    }
+                }
+                for (Iterator iterator = p.getDocXML().getDescendants(Filters.element());
+                        iterator.hasNext();) {
+                    Element next = (Element) iterator.next();
+                    System.out.println(next.getName());
                 }
 ////                p.setNodoHijo(p.crearNodo(txtNombre.getText()));
 ////                System.out.println("hijo: " + p.getNodoHijo().getName());

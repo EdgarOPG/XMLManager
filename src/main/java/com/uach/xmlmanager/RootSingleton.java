@@ -37,6 +37,6 @@ public class RootSingleton {
     }
 
     public static void main(String[] args) {
-        
+            
     }
 }

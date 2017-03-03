@@ -9,15 +9,18 @@ package com.uach.GUI;
  *
  * @author edgar
  */
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import org.jdom2.filter.Filters;
 
 public class PyJDom {
 
@@ -69,11 +72,27 @@ public class PyJDom {
         return nodo;
     }
 
+    public Element buscarNodo(Integer indexElemento) {
+//        for (Iterator iterator = getDocXML().getDescendants(Filters.element());
+//                iterator.hasNext();) {
+//            Element next = (Element) iterator.next();
+//            System.out.println(next.getName());
+//        }
+        Iterator iterator = getDocXML().getDescendants(Filters.element());
+        List<Element> elementList = new ArrayList<Element>();
+
+        while (iterator.hasNext()) {
+            elementList.add((Element) iterator.next());
+        }
+
+        return elementList.get(indexElemento);
+    }
+
     private static String nombre;
 
     public static void main(String[] args) {
         PyJDom p = new PyJDom();
-        Document docXML = new Document();
+        Document docXML = p.getDocXML();
         Element raiz = p.crearNodo("CatLibros");
         docXML.addContent(raiz);
 
@@ -109,19 +128,25 @@ public class PyJDom {
         nodoHijo.addContent(p.crearNodo("Titulo", "Administracion de TI"));
         nodoHijo.addContent(p.crearNodo("Editorial", "Pearson"));
         nodoHijo.addContent(p.crearNodo("Precio", "260.00"));
-        raiz.
-                addContent(nodoHijo);
-        
-        for (Iterator iterator = docXML.getDescendants(); iterator.hasNext();) {
-            Object next = iterator.next();
-            System.out.println(next);
+        raiz.addContent(nodoHijo);
+
+        for (Iterator iterator = docXML.getDescendants(Filters.element()); iterator.hasNext();) {
+            Element next = (Element) iterator.next();
+            System.out.println(next.getName());
         }
 
+        System.out.println("\n Aqui: " + p.buscarNodo(2).getName());
 
+        p.setNodoPadre(p.buscarNodo(2));
+        p.setNodoHijo(p.crearNodo("Edad", "32"));
+        
+        p.getNodoPadre().addContent(p.getNodoHijo());
+        
+        
         Format format = Format.getPrettyFormat();
         XMLOutputter xmloutputter = new XMLOutputter(format);
         String docStr = xmloutputter.outputString(docXML);
-//        System.out.println(docStr);
+        System.out.println(docStr);
 
         try {
             File f = new File("C:\\ApJava\\Libreria.xml");

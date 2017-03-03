@@ -6,14 +6,18 @@
 package com.uach.GUI;
 
 import java.util.List;
-import org.jdom.Element;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
+import static java.util.Locale.filter;
+import static java.util.Locale.filter;
+import org.jdom2.Content;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 /**
  *
  * @author edgar
  */
+
 public class MainMenu extends javax.swing.JFrame {
 
     /**
@@ -172,7 +176,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if (p.getDocXML().hasRootElement()) {
-            List<Element> hijos = p.getRaiz().getContent();
+            List<Content> hijos = p.getRaiz().getContent();
             AddElement addElement = new AddElement(hijos);
             addElement.setVisible(true);
         } else {

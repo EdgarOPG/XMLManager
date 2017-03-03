@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CatLibros>
   <Libro ISBN="12345">
-    <Autor>Oscar Rocha</Autor>
+    <Autor>
+      Oscar Rocha
+      <Edad>32</Edad>
+    </Autor>
     <Titulo>Inteligencia de Negocios</Titulo>
     <Editorial>McGraw-Hill</Editorial>
     <Precio>120.00</Precio>
@@ -25,4 +28,3 @@
     <Precio>260.00</Precio>
   </Libro>
 </CatLibros>
-
