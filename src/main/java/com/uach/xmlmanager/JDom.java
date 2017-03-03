@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uach.GUI;
+package com.uach.xmlmanager;
 
 /**
  *
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.JTextArea;
 import org.jdom2.Content;
 import org.jdom2.filter.Filters;
 
@@ -136,7 +137,7 @@ public class JDom {
             System.out.println(next.getName());
         }
 
-        p.setNodoPadre(p.getNode(p.getDocXML().getDescendants(Filters.element()),21));
+        p.setNodoPadre(p.getNode(p.getDocXML().getDescendants(Filters.element()), 21));
         p.setNodoHijo(p.crearNodo("Edad", "32"));
 
         p.getNodoPadre().addContent(p.getNodoHijo());

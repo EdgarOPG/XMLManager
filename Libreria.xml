@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<company>
+  <staff>
+    <firstname>low</firstname>
+    <lastname>yin fong</lastname>
+    <nickname>fong fong</nickname>
+    <salary>200000</salary>
+  </staff>
+</company>

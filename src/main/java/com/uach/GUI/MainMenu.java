@@ -5,9 +5,21 @@
  */
 package com.uach.GUI;
 
+import com.uach.xmlmanager.JDom;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
-import javax.swing.JButton;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import org.jdom2.Content;
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
@@ -15,29 +27,36 @@ import org.jdom2.output.XMLOutputter;
  *
  * @author edgar
  */
-
 public class MainMenu extends javax.swing.JFrame {
 
     /**
      * Creates new form MainMenu
      */
     JDom p = new JDom();
+    JFileChooser fileChooser = new JFileChooser();
+    SAXBuilder builder = new SAXBuilder();
+    Document document = new Document();
+
     Format format = Format.getPrettyFormat();
     XMLOutputter xmloutputter = new XMLOutputter(format);
 
-//    Document docXML = new Document();
-//
-//    Format format = Format.getPrettyFormat();
-//    XMLOutputter xmloutputter = new XMLOutputter(format);
-//    String docStr = null;
     public MainMenu() {
         initComponents();
         setLocationRelativeTo(null);
     }
-    
-    public void Reload(){
+
+    public void Reload() {
         String docStr = xmloutputter.outputString(p.getDocXML());
         txaMain.setText(docStr);
+    }
+
+    public void loadFile() throws JDOMException, IOException {
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            document = builder.build(file);
+            p.setDocXML(document);
+            p.setRaiz(p.getDocXML().getRootElement());
+        }
     }
 
     /**
@@ -76,6 +95,11 @@ public class MainMenu extends javax.swing.JFrame {
         btnActualizar.setText("Actualizar elemento");
 
         btnEliminar.setText("Eliminar elemento");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -169,7 +193,15 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void miAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAbrirActionPerformed
-
+        try {
+            loadFile();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JDOMException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_miAbrirActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -185,7 +217,25 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void miGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGuardarActionPerformed
         Reload();
+        try {
+            File f = new File("Libreria.xml");
+            FileWriter fw = new FileWriter(f);
+            xmloutputter.output(p.getDocXML(), fw);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }//GEN-LAST:event_miGuardarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if (p.getDocXML().hasRootElement()) {
+            List<Content> hijos = p.getNodeList(p.getRaiz().getDescendants());
+            DeleteElement deleteElement = new DeleteElement(hijos);
+            deleteElement.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay elementos para eliminar");
+
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,6 +284,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem miAbrir;
     private javax.swing.JMenuItem miGuardar;
     private javax.swing.JMenuItem miNuevo;
-    private javax.swing.JTextArea txaMain;
+    public javax.swing.JTextArea txaMain;
     // End of variables declaration//GEN-END:variables
 }
