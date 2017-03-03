@@ -24,6 +24,7 @@ public class EditElement extends javax.swing.JFrame {
     JDom p = new JDom();
     public List<Content> elements = new ArrayList<Content>();
     public Integer cmbIndex;
+    public Integer i = 0;
     public Boolean flag = false;
 
     public EditElement() {
@@ -35,7 +36,8 @@ public class EditElement extends javax.swing.JFrame {
         setElements(elements);
         if (!getElements().isEmpty()) {
             getElements().forEach((element) -> {
-                cmbElementos.addItem(element.toString());
+                cmbElementos.addItem(element.toString() + " " + i);
+                i++;
             });
         }
         this.setLocationRelativeTo(null);
@@ -122,6 +124,8 @@ public class EditElement extends javax.swing.JFrame {
         cmbIndex = cmbElementos.getSelectedIndex();
         p.setNodoPadre(p.getNode(p.getDocXML()
                 .getDescendants(Filters.element()), cmbIndex - 1));
+        p.getNodoPadre().removeContent();
+        p.getNodoPadre().addContent(txaContent.getText());
         flag = true;
         this.dispose();
     }//GEN-LAST:event_bntGuardarActionPerformed
