@@ -24,7 +24,7 @@ public class DeleteElement extends javax.swing.JFrame {
     JDom p = new JDom();
     public List<Content> elements = new ArrayList<Content>();
     public Integer cmbIndex;
-    public Integer i;
+    public Integer i = 0;
     public Boolean flag = false;
 
     private DeleteElement() {

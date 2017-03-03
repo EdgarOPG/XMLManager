@@ -66,7 +66,7 @@ public class EditElement extends javax.swing.JFrame {
         txaContent = new javax.swing.JTextArea();
         bntGuardar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Editar elemento");
 
