@@ -5,10 +5,10 @@
  */
 package com.uach.xmlmanager;
 
-import com.uach.GUI.PyJDom;
+import com.uach.GUI.JDom;
 import java.sql.Connection;
-import org.jdom.Document;
-import org.jdom.Element;
+import org.jdom2.Document;
+import org.jdom2.Element;
 
 /**
  *
@@ -16,7 +16,7 @@ import org.jdom.Element;
  */
 public class RootSingleton {
 
-    PyJDom p = new PyJDom();
+    JDom p = new JDom();
     static Document docXML = new Document();
     private static RootSingleton INSTANCE;
 

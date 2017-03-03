@@ -17,12 +17,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import org.jdom2.Content;
 import org.jdom2.filter.Filters;
 
-public class PyJDom {
+public class JDom {
 
     private static Document docXML = new Document();
     private static Element raiz;
@@ -72,26 +72,27 @@ public class PyJDom {
         return nodo;
     }
 
-    public Element buscarNodo(Integer indexElemento) {
-//        for (Iterator iterator = getDocXML().getDescendants(Filters.element());
-//                iterator.hasNext();) {
-//            Element next = (Element) iterator.next();
-//            System.out.println(next.getName());
-//        }
-        Iterator iterator = getDocXML().getDescendants(Filters.element());
+    public Element getNode(Iterator iterator, Integer indexElemento) {
         List<Element> elementList = new ArrayList<Element>();
-
         while (iterator.hasNext()) {
             elementList.add((Element) iterator.next());
         }
-
         return elementList.get(indexElemento);
+    }
+
+    public List<Content> getNodeList(Iterator iterator) {
+        List<Content> elementList = new ArrayList<Content>();
+        iterator = getDocXML().getDescendants(Filters.element());
+        while (iterator.hasNext()) {
+            elementList.add((Element) iterator.next());
+        }
+        return elementList;
     }
 
     private static String nombre;
 
     public static void main(String[] args) {
-        PyJDom p = new PyJDom();
+        JDom p = new JDom();
         Document docXML = p.getDocXML();
         Element raiz = p.crearNodo("CatLibros");
         docXML.addContent(raiz);
@@ -135,14 +136,11 @@ public class PyJDom {
             System.out.println(next.getName());
         }
 
-        System.out.println("\n Aqui: " + p.buscarNodo(2).getName());
-
-        p.setNodoPadre(p.buscarNodo(2));
+        p.setNodoPadre(p.getNode(p.getDocXML().getDescendants(Filters.element()),21));
         p.setNodoHijo(p.crearNodo("Edad", "32"));
-        
+
         p.getNodoPadre().addContent(p.getNodoHijo());
-        
-        
+
         Format format = Format.getPrettyFormat();
         XMLOutputter xmloutputter = new XMLOutputter(format);
         String docStr = xmloutputter.outputString(docXML);

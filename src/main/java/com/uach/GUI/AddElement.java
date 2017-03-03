@@ -5,12 +5,10 @@
  */
 package com.uach.GUI;
 
-import java.awt.Toolkit;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.jdom2.Content;
-import org.jdom2.Element;
 import org.jdom2.filter.Filters;
 
 /**
@@ -22,10 +20,10 @@ public class AddElement extends javax.swing.JFrame {
     /**
      * Creates new form AddElement
      */
-    PyJDom p = new PyJDom();
+    JDom p = new JDom();
     MainMenu mM;
     public List<Content> elements = new ArrayList<Content>();
-    public Integer indexElements;
+    public Integer cmbIndex;
 
     public List<Content> getElements() {
         return elements;
@@ -38,8 +36,8 @@ public class AddElement extends javax.swing.JFrame {
     public AddElement(List<Content> elements) {
         initComponents();
         setElements(elements);
-        if (!elements.isEmpty()) {
-            elements.forEach((element) -> {
+        if (!getElements().isEmpty()) {
+            getElements().forEach((element) -> {
                 cmbElementoPadre.addItem(element.toString());
             });
         }
@@ -64,8 +62,10 @@ public class AddElement extends javax.swing.JFrame {
         lblNombre = new javax.swing.JLabel();
         cmbElementoPadre = new javax.swing.JComboBox<>();
         lblPadre = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
+        txtTag = new javax.swing.JTextField();
         bntOk = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        txtContent = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -81,9 +81,9 @@ public class AddElement extends javax.swing.JFrame {
 
         lblPadre.setText("Padre");
 
-        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtTag.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNombreKeyPressed(evt);
+                txtTagKeyPressed(evt);
             }
         });
 
@@ -94,21 +94,24 @@ public class AddElement extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Contenido");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1)
                     .addComponent(lblNombre)
                     .addComponent(lblPadre)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(cmbElementoPadre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bntOk))
-                        .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cmbElementoPadre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bntOk))
+                    .addComponent(txtTag, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                    .addComponent(txtContent))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -116,9 +119,13 @@ public class AddElement extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblNombre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(txtTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(txtContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(lblPadre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -131,49 +138,39 @@ public class AddElement extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bntOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntOkActionPerformed
-        if (p.getDocXML().hasRootElement()) {
-            Integer cmbIndex = cmbElementoPadre.getSelectedIndex();
-
-            if (cmbIndex == 0) {
-                p.setNodoHijo(p.crearNodo(txtNombre.getText()));
-                p.getRaiz().addContent(p.getNodoHijo());
-            } else {
-                indexElements = cmbElementoPadre.getSelectedIndex();
-
-                for (Content element : elements) {
-                    System.out.println("QualifiedName: " + element.toString());
-////                    if (element.getText().equals(nombre)) {
-////                        p.setNodoPadre(element);
-////                    }
-                }
-                for (Iterator iterator = p.getDocXML().getDescendants(Filters.element());
-                        iterator.hasNext();) {
-                    Element next = (Element) iterator.next();
-                    System.out.println(next.getName());
-                }
-////                p.setNodoHijo(p.crearNodo(txtNombre.getText()));
-////                System.out.println("hijo: " + p.getNodoHijo().getName());
-////                System.out.println("padre: " + p.getNodoPadre().getName());
-//                p.getNodoPadre().addContent(p.getNodoHijo());
-            }
+        if (txtTag.getText().equals("")) {
+            JOptionPane.showMessageDialog(txtTag, "El campo nombre es obligatorio");
         } else {
-            p.setRaiz(p.crearNodo(txtNombre.getText()));
-            p.getDocXML().addContent(p.getRaiz());
+            if (p.getDocXML().hasRootElement()) {
+                cmbIndex = cmbElementoPadre.getSelectedIndex();
+                if (cmbIndex <= 0) {
+                    p.setNodoHijo(p.crearNodo(txtTag.getText()));
+                    p.getRaiz().addContent(p.getNodoHijo());
+                } else {
+                    p.setNodoPadre(p.getNode(p.getDocXML().getDescendants(Filters.element()), cmbIndex - 1));
+                    p.setNodoHijo(p.crearNodo(txtTag.getText()));
+                    p.getNodoPadre().addContent(p.getNodoHijo());
+                }
+            } else {
+                p.setRaiz(p.crearNodo(txtTag.getText()));
+                p.getDocXML().addContent(p.getRaiz());
+            }
+            txtTag.setText("");
+            this.dispose();
         }
-        this.dispose();
     }//GEN-LAST:event_bntOkActionPerformed
 
     private void cmbElementoPadreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbElementoPadreItemStateChanged
-        indexElements = cmbElementoPadre.getSelectedIndex();
-        System.out.println("seleccionado: " + indexElements);
+        cmbIndex = (cmbElementoPadre.getSelectedIndex());
+        System.out.println("seleccionado: " + cmbIndex);
     }//GEN-LAST:event_cmbElementoPadreItemStateChanged
 
-    private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
+    private void txtTagKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTagKeyPressed
         int key = evt.getKeyCode();
         if (key == evt.VK_ENTER) {
             bntOk.doClick();
         }
-    }//GEN-LAST:event_txtNombreKeyPressed
+    }//GEN-LAST:event_txtTagKeyPressed
 
     /**
      * @param args the command line arguments
@@ -213,8 +210,10 @@ public class AddElement extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntOk;
     private javax.swing.JComboBox<String> cmbElementoPadre;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPadre;
-    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtContent;
+    private javax.swing.JTextField txtTag;
     // End of variables declaration//GEN-END:variables
 }

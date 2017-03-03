@@ -6,10 +6,8 @@
 package com.uach.GUI;
 
 import java.util.List;
-import static java.util.Locale.filter;
-import static java.util.Locale.filter;
+import javax.swing.JButton;
 import org.jdom2.Content;
-import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
@@ -23,7 +21,7 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
-    PyJDom p = new PyJDom();
+    JDom p = new JDom();
     Format format = Format.getPrettyFormat();
     XMLOutputter xmloutputter = new XMLOutputter(format);
 
@@ -176,7 +174,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if (p.getDocXML().hasRootElement()) {
-            List<Content> hijos = p.getRaiz().getContent();
+            List<Content> hijos = p.getNodeList(p.getRaiz().getDescendants());
             AddElement addElement = new AddElement(hijos);
             addElement.setVisible(true);
         } else {
